@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "enem-ingestion"
+spec:
+  containers:
+  - name: python-container
+    image: diegoriciardi/desafio-btc-edc-final-m5-spark:9.9.9
+    imagePullPolicy: Always
+    securityContext:
+      allowPrivilegeEscalation: false
+      runAsUser: 0
+    resources:
+      requests:
+        memory: "3Gi"
+        cpu: "500m"
+      limits:
+        memory: "3Gi"
+        cpu: "1000m"
+    command: ["bash", "-c", "python3 -u /src/app/ingestion_job.py"]
+    envFrom:
+      - secretRef:
+          name: "aws-secret"
